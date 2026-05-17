@@ -12,6 +12,101 @@ A Second Brain is a personal knowledge management system that helps you capture,
 
 The concept was popularized by [Tiago Forte](https://fortelabs.com/) and his **BASB** (Building a Second Brain) methodology, but you don't need to follow any specific framework to get started.
 
+## Architecture
+
+```mermaid
+graph TB
+    subgraph USER["👤 Usuario"]
+        U1["Captura ideas, notas, links"]
+        U2["Chat con Librarian<br/>via TUI / CLI"]
+        U3["Aprueba / Rechaza<br/>propuestas"]
+        U4["Lee y navega<br/>el wiki en Obsidian"]
+    end
+
+    subgraph SOURCES["📥 Fuentes Externas"]
+        YT["📺 YouTube"]
+        POD["🎙️ Podcasts"]
+        WEB["🌐 Web / Papers"]
+        PDF["📄 PDFs / Artículos"]
+        MANUAL["📝 Notas manuales"]
+    end
+
+    subgraph TOOLKIT["🔧 Content Toolkit"]
+        INGEST["ingest-youtube<br/>yt-dlp → ffmpeg → Whisper"]
+        TRANSCRIBE["transcribe<br/>Whisper standalone"]
+    end
+
+    subgraph VAULT["🗄️ Obsidian Vault"]
+        RAW["raw/<br/>Fuentes inmutables<br/>(sin procesar)"]
+        WIKI["wiki/<br/>Conocimiento curado<br/>conceptos · entidades<br/>sources · synthesis"]
+        INBOX["inbox/<br/>Captura humana<br/>(no se procesa auto)"]
+    end
+
+    subgraph LIBRARIAN_AGENT["📚 Librarian (Agente Curador)"]
+        L1["Inspect raw/"]
+        L2["Classify & Dedup"]
+        L3["Generate Proposals"]
+        L4["Apply<br/>(con aprobación humana)"]
+        L1 --> L2 --> L3 --> L4
+    end
+
+    subgraph RESEARCHER_AGENT["🔍 Researcher (Agente de Búsqueda)"]
+        R1["THINK"]
+        R2["SEARCH<br/>Brave / SearXNG / Tavily"]
+        R3["READ & Synthesize"]
+        R1 --> R2 --> R3
+    end
+
+    %% Fuentes → Content Toolkit → raw/
+    YT --> INGEST
+    POD --> TRANSCRIBE
+    INGEST -->|"transcripción + resumen"| RAW
+    TRANSCRIBE -->|"transcripción"| RAW
+
+    %% Fuentes manuales → raw/ o inbox/
+    WEB -->|"guardado manual"| RAW
+    PDF -->|"guardado manual"| RAW
+    MANUAL --> INBOX
+    MANUAL --> RAW
+    U1 --> INBOX
+    U1 --> RAW
+
+    %% raw/ → Librarian → wiki/
+    RAW --> L1
+    L4 -->|"escribe notas curadas"| WIKI
+
+    %% Usuario interactúa con Librarian
+    U2 --> L1
+    U3 --> L4
+    L3 -.->|"propuestas pendientes"| U3
+
+    %% Researcher → puede alimentar raw/
+    R3 -->|"resultado → raw/"| RAW
+
+    %% Usuario lee wiki
+    WIKI --> U4
+
+    %% Researcher se invoca directamente
+    U2 -.->|"o"| R1
+
+    %% Styling
+    classDef user fill:#f9e79f,stroke:#f4d03f,color:#000
+    classDef source fill:#aed6f1,stroke:#5dade2,color:#000
+    classDef toolkit fill:#d5f5e3,stroke:#58d68d,color:#000
+    classDef vault fill:#fadbd8,stroke:#ec7063,color:#000
+    classDef agent fill:#e8daef,stroke:#af7ac5,color:#000
+    classDef research fill:#fdebd0,stroke:#f0b27a,color:#000
+
+    class U1,U2,U3,U4 user
+    class YT,POD,WEB,PDF,MANUAL source
+    class INGEST,TRANSCRIBE toolkit
+    class RAW,WIKI,INBOX vault
+    class L1,L2,L3,L4 agent
+    class R1,R2,R3 research
+```
+
+> 📖 Full architecture documentation: [`docs/architecture/ARCHITECTURE.md`](./docs/architecture/ARCHITECTURE.md)
+
 ## What's in this ecosystem?
 
 | Project | Description | Status |
@@ -19,7 +114,9 @@ The concept was popularized by [Tiago Forte](https://fortelabs.com/) and his **B
 | **[Landing Page](./index.html)** | Visual, bilingual landing page for the project — hosted on GitHub Pages | 🟢 Live |
 | **[second-brain](./second-brain/)** | Step-by-step guide to set up your Second Brain from scratch using Obsidian — includes 7 bilingual guides, 7 starter templates, and an agent brief | 🟢 In progress |
 | **[local-LLM](./local-LLM/)** | Optional guide to run a local model with Ollama for Librarian | 🟢 In progress |
-| **[librarian](https://github.com/Agents4Life/librarian)** | Optional separate open-source review-driven knowledge maintenance pipeline for Obsidian vaults | 🟡 Experimental alpha |
+| **[librarian](https://github.com/Agents4Life/librarian)** | Review-driven knowledge maintenance agent for Obsidian vaults | 🟡 Experimental alpha |
+| **[content-toolkit](https://github.com/VanessaPellegrini/content-toolkit)** | Media ingestion tools — YouTube → transcription → summary, Whisper standalone | 🟢 Ready |
+| **[researcher](https://github.com/Agents4Life/researcher)** | Agentic web search (Search-o1 pattern) — thinks, searches, reads, synthesizes | 🟡 Experimental alpha |
 
 ## Quick Start
 
