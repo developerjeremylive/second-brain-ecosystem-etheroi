@@ -16,11 +16,14 @@ El concepto fue popularizado por [Tiago Forte](https://fortelabs.com/) y su meto
 
 | Proyecto | Descripción | Estado |
 |----------|-------------|--------|
-| **[second-brain](./second-brain/)** | Guía paso a paso para armar tu Segundo Cerebro desde cero usando Obsidian | 🟢 En progreso |
+| **[Landing Page](./index.html)** | Landing page visual y bilingüe del proyecto — hosteada en GitHub Pages | 🟢 Live |
+| **[second-brain](./second-brain/)** | Guía paso a paso para armar tu Segundo Cerebro desde cero usando Obsidian — incluye 7 guías bilingües, 7 templates iniciales y un brief para agentes | 🟢 En progreso |
 | **[local-LLM](./local-LLM/README.es.md)** | Guía opcional para correr un modelo local con Ollama para Librarian | 🟢 En progreso |
 | **[librarian](https://github.com/Agents4Life/librarian)** | Pipeline de mantenimiento de conocimiento review-driven, separado y opcional, para vaults de Obsidian | 🟡 Alpha experimental |
 
 ## Empezá acá
+
+**Probá la landing page primero:** Abrí [index.html](./index.html) en tu navegador para una vista visual del ecosistema, o visitá la deployment en GitHub Pages.
 
 ### ¿Nunca armaste un Segundo Cerebro?
 
@@ -34,10 +37,25 @@ Entrá en **[second-brain/](./second-brain/)** y seguí las guías en orden:
 6. **[Tu flujo de trabajo](./second-brain/guides/es/06-workflow.md)** — Capturar → Organizar → Recuperar → Crear
 7. **[Siguiente nivel con IA](./second-brain/guides/es/07-next-level-with-ai.md)** — Automatización y enriquecimiento opcionales con Librarian
 8. **[Configurar un LLM local](./local-LLM/README.es.md)** — Configuración local opcional de Ollama para Librarian
+9. **[Inicio rápido para agentes](./second-brain/guides/agent/README.md)** — Orden de lectura mínimo y reglas de edición para agentes de IA
 
 ### ¿Ya tenés un Segundo Cerebro?
 
 Si querés asistencia con IA, probá **[librarian](https://github.com/Agents4Life/librarian)** para sumar una capa de agente opcional a tu vault.
+
+## Templates
+
+El ecosistema incluye 7 templates iniciales de Obsidian en [`second-brain/templates/`](./second-brain/templates/):
+
+| Template | Para qué |
+|----------|----------|
+| `daily-template.md` | Nota diaria con foco, notas, ideas y capturas |
+| `weekly-review.md` | Revisión semanal con limpieza de inbox, revisión de proyectos y planificación |
+| `source-template.md` | Nota de fuente general con URL, autor y tags |
+| `raw-source-template.md` | Fuente movida a `raw/` para procesamiento de Librarian |
+| `wiki-concept-template.md` | Página de concepto de Librarian (capa wiki) |
+| `wiki-source-template.md` | Página de índice de fuente de Librarian (capa wiki) |
+| `wiki-synthesis-template.md` | Página de síntesis de Librarian (capa wiki) |
 
 ## Filosofía
 

@@ -16,11 +16,14 @@ The concept was popularized by [Tiago Forte](https://fortelabs.com/) and his **B
 
 | Project | Description | Status |
 |---------|-------------|--------|
-| **[second-brain](./second-brain/)** | Step-by-step guide to set up your Second Brain from scratch using Obsidian | 🟢 In progress |
+| **[Landing Page](./index.html)** | Visual, bilingual landing page for the project — hosted on GitHub Pages | 🟢 Live |
+| **[second-brain](./second-brain/)** | Step-by-step guide to set up your Second Brain from scratch using Obsidian — includes 7 bilingual guides, 7 starter templates, and an agent brief | 🟢 In progress |
 | **[local-LLM](./local-LLM/)** | Optional guide to run a local model with Ollama for Librarian | 🟢 In progress |
 | **[librarian](https://github.com/Agents4Life/librarian)** | Optional separate open-source review-driven knowledge maintenance pipeline for Obsidian vaults | 🟡 Experimental alpha |
 
 ## Quick Start
+
+**Try the landing page first:** Open [index.html](./index.html) in your browser for a visual overview of the ecosystem, or visit the GitHub Pages deployment.
 
 ### Never built a Second Brain before?
 
@@ -39,6 +42,20 @@ Head to **[second-brain/](./second-brain/)** and follow the guides in order:
 ### Already have a Second Brain?
 
 If you want AI assistance, try **[librarian](https://github.com/Agents4Life/librarian)** to add an optional agent layer to your vault.
+
+## Templates
+
+The ecosystem includes 7 starter Obsidian templates in [`second-brain/templates/`](./second-brain/templates/):
+
+| Template | Purpose |
+|----------|---------|
+| `daily-template.md` | Daily note with focus, notes, ideas, and captured sections |
+| `weekly-review.md` | Weekly review with inbox cleanup, project review, and planning |
+| `source-template.md` | General source note with URL, author, and tags |
+| `raw-source-template.md` | Source moved to `raw/` for Librarian processing |
+| `wiki-concept-template.md` | Librarian concept page (wiki layer) |
+| `wiki-source-template.md` | Librarian source index page (wiki layer) |
+| `wiki-synthesis-template.md` | Librarian synthesis page (wiki layer) |
 
 ## Philosophy
 

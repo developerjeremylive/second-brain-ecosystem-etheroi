@@ -19,7 +19,17 @@ Follow in order for the best experience:
 | 07 | [Next Level with AI](./guides/en/07-next-level-with-ai.md) | Optional: meet Librarian, an AI-powered knowledge agent |
 | 08 | [Agent Quick Start](./guides/agent/README.md) | Optional: minimal read order and editing rules for AI agents |
 
-Starter Obsidian templates live in [`templates/`](./templates/).
+Starter Obsidian templates live in [`templates/`](./templates/):
+
+| Template | Purpose |
+|----------|---------|
+| `daily-template.md` | Daily note with focus, notes, ideas, and captured sections |
+| `weekly-review.md` | Weekly review with inbox cleanup, project review, and planning |
+| `source-template.md` | General source note with URL, author, and tags |
+| `raw-source-template.md` | Source moved to `raw/` for Librarian processing |
+| `wiki-concept-template.md` | Librarian concept page (wiki layer) |
+| `wiki-source-template.md` | Librarian source index page (wiki layer) |
+| `wiki-synthesis-template.md` | Librarian synthesis page (wiki layer) |
 
 ## Who is this for?
 

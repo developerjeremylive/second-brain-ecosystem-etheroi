@@ -17,8 +17,19 @@ Seguílas en orden para la mejor experiencia:
 | 05 | [Plugins esenciales](./guides/es/05-essential-plugins.md) | 8 plugins que cubren el 90% de lo que necesitás |
 | 06 | [Tu flujo de trabajo](./guides/es/06-workflow.md) | Framework CODE, revisiones semanales, hábitos diarios |
 | 07 | [Siguiente nivel con IA](./guides/es/07-next-level-with-ai.md) | Opcional: conocé Librarian, un agente de conocimiento con IA |
+| 08 | [Inicio rápido para agentes](./guides/agent/README.md) | Opcional: orden de lectura mínimo y reglas de edición para agentes de IA |
 
-Los templates iniciales de Obsidian viven en [`templates/`](./templates/).
+Los templates iniciales de Obsidian viven en [`templates/`](./templates/):
+
+| Template | Para qué |
+|----------|----------|
+| `daily-template.md` | Nota diaria con foco, notas, ideas y capturas |
+| `weekly-review.md` | Revisión semanal con limpieza de inbox, revisión de proyectos y planificación |
+| `source-template.md` | Nota de fuente general con URL, autor y tags |
+| `raw-source-template.md` | Fuente movida a `raw/` para procesamiento de Librarian |
+| `wiki-concept-template.md` | Página de concepto de Librarian (capa wiki) |
+| `wiki-source-template.md` | Página de índice de fuente de Librarian (capa wiki) |
+| `wiki-synthesis-template.md` | Página de síntesis de Librarian (capa wiki) |
 
 ## ¿Para quién es?
 
