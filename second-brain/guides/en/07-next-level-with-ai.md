@@ -148,31 +148,31 @@ If you enable Librarian, the three conceptual layers materialize as these folder
 
 ## The Three Operations
 
-The AI performs three core operations on your wiki:
+The AI performs three core operations around your wiki. Any operation that would change `wiki/` must produce a proposal first; only approved and applied proposals mutate the vault.
 
 ### 1. 📥 Ingest
 
-You drop a new source into your raw collection. The AI:
+You approve a new source by moving or copying it into `raw/`. Librarian:
 
 ```mermaid
 flowchart LR
-    S[New source] --> R[AI reads it]
-    R --> D[Discuss key takeaways with you]
-    D --> W[Write summary page]
-    W --> U[Update related pages]
-    U --> I[Update index]
-    I --> L[Append to log]
+    S[Approved raw/ source] --> R[Librarian reads it]
+    R --> P[Generate proposal]
+    P --> V[Export review to reviews/]
+    V --> A[User approve/apply]
+    A --> W[Write wiki changes]
+    W --> L[Append log / update derived artifacts]
 ```
 
-A single source might touch 10–15 wiki pages. The AI reads the article, extracts key ideas, creates new pages, and updates existing ones — all the cross-referencing that humans find tedious.
+A single source might propose changes to 10–15 wiki pages. Librarian reads the article, extracts key ideas, and proposes new pages or updates — all the cross-referencing that humans find tedious — but the wiki changes land only after review, approval, and apply.
 
 ### 2. ❓ Query
 
 You ask questions. The AI searches the wiki, reads relevant pages, and synthesizes an answer with citations. The key insight:
 
-> **Good answers become new wiki pages.** A comparison you asked for, an analysis, a connection you discovered — these are valuable and shouldn't disappear into chat history.
+> **Good answers can become wiki proposals.** A comparison you asked for, an analysis, a connection you discovered — these are valuable and shouldn't disappear into chat history.
 
-This way your explorations compound in the knowledge base, just like ingested sources do.
+This way your explorations can compound in the knowledge base, but still pass through the same proposal/review/apply boundary.
 
 ### 3. 🧹 Lint
 
@@ -184,7 +184,7 @@ Periodically, the AI health-checks the wiki:
 - Important concepts mentioned but lacking their own page
 - Missing cross-references
 
-This keeps the wiki healthy as it grows. Humans abandon wikis because the maintenance burden grows faster than the value. AI doesn't get bored.
+Lint findings become reports or proposals. This keeps the wiki healthy as it grows without bypassing human approval. Humans abandon wikis because the maintenance burden grows faster than the value. AI doesn't get bored, but it still needs review.
 
 ## The Index and the Log
 

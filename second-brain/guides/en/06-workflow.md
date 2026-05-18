@@ -85,11 +85,12 @@ Set aside 30 minutes every week (Sunday evening or Monday morning):
 
 ### 1. Clean Inbox (8 min)
 - [ ] Move all inbox notes to their PARA home
-- [ ] Move valuable AI sources to raw/
+- [ ] Copy or move valuable AI sources to raw/ only after explicit consent
 - [ ] Delete notes that aren't useful anymore
 
 ### 2. Review Librarian Proposals (5 min)
-- [ ] Approve, edit, or reject proposals in reviews/
+- [ ] Read proposal exports in reviews/
+- [ ] Approve, reject, or apply proposals via Librarian CLI
 - [ ] Check diagnostics in reports/
 
 ### 3. Review Projects (10 min)

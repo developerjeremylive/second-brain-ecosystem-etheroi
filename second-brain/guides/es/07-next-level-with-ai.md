@@ -148,31 +148,31 @@ Si habilitás Librarian, las tres capas conceptuales se materializan en estas ca
 
 ## Las Tres Operaciones
 
-La IA realiza tres operaciones core en tu wiki:
+La IA realiza tres operaciones core alrededor de tu wiki. Cualquier operación que quiera cambiar `wiki/` debe generar una propuesta primero; solo las propuestas aprobadas y aplicadas mutan el vault.
 
 ### 1. 📥 Ingerir
 
-Dejás una fuente nueva en tu colección cruda. La IA:
+Aceptás una fuente nueva moviéndola o copiándola a `raw/`. Librarian:
 
 ```mermaid
 flowchart LR
-    S[Fuente nueva] --> R[IA la lee]
-    R --> D[Discute puntos clave con vos]
-    D --> W[Escribe página de resumen]
-    W --> U[Actualiza páginas relacionadas]
-    U --> I[Actualiza índice]
-    I --> L[Agrega al log]
+    S[Fuente aprobada en raw/] --> R[Librarian la lee]
+    R --> P[Genera propuesta]
+    P --> V[Exporta revisión a reviews/]
+    V --> A[Usuario aprueba/aplica]
+    A --> W[Escribe cambios en wiki]
+    W --> L[Agrega al log / actualiza derivados]
 ```
 
-Una sola fuente puede tocar 10–15 páginas de la wiki. La IA lee el artículo, extrae ideas clave, crea páginas nuevas y actualiza las existentes — todo el cross-referencing que los humanos encontramos tedioso.
+Una sola fuente puede proponer cambios en 10–15 páginas de la wiki. Librarian lee el artículo, extrae ideas clave y propone páginas nuevas o actualizaciones — todo el cross-referencing que los humanos encontramos tedioso — pero los cambios llegan al wiki solo después de review, aprobación y apply.
 
 ### 2. ❓ Consultar
 
 Hacés preguntas. La IA busca en la wiki, lee las páginas relevantes y sintetiza una respuesta con citas. El insight clave:
 
-> **Las buenas respuestas se convierten en páginas nuevas de la wiki.** Una comparación que pediste, un análisis, una conexión que descubriste — son valiosas y no deberían desaparecer en el historial del chat.
+> **Las buenas respuestas pueden convertirse en propuestas para la wiki.** Una comparación que pediste, un análisis, una conexión que descubriste — son valiosas y no deberían desaparecer en el historial del chat.
 
-Así tus exploraciones se acumulan en la base de conocimiento, igual que las fuentes ingeridas.
+Así tus exploraciones pueden acumularse en la base de conocimiento, pero pasan por la misma frontera de propuesta/revisión/apply.
 
 ### 3. 🧹 Lintear
 
@@ -184,7 +184,7 @@ Periódicamente, la IA hace un health-check de la wiki:
 - Conceptos importantes mencionados pero sin página propia
 - Referencias cruzadas faltantes
 
-Esto mantiene la wiki saludable a medida que crece. Los humanos abandonan wikis porque la carga de mantenimiento crece más rápido que el valor. La IA no se aburre.
+Los hallazgos de lint se convierten en reportes o propuestas. Esto mantiene la wiki saludable a medida que crece sin saltear aprobación humana. Los humanos abandonan wikis porque la carga de mantenimiento crece más rápido que el valor. La IA no se aburre, pero sigue necesitando revisión.
 
 ## El Índice y el Log
 

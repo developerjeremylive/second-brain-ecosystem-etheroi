@@ -70,7 +70,7 @@ vault/
 | `daily/` | Daily human notes. Not processed by Librarian by default. | User |
 | `1-projects/`, `2-areas/`, `3-resources/`, `4-archive/` | PARA organization for the human Second Brain | User |
 | `raw/` | Curated sources for Librarian to process | User (explicit consent) |
-| `wiki/` | Structured knowledge maintained by AI | Librarian |
+| `wiki/` | Structured knowledge updated only by approved Librarian apply | Librarian |
 | `reviews/` | Human-readable review and export surface | Librarian (user approves via CLI) |
 | `reports/` | Vault diagnostics | Librarian |
 | `memory/` | Agent continuity across sessions | Librarian |

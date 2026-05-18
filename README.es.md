@@ -24,6 +24,8 @@ Así que decidí **automatizar mi Second Brain**.
 
 Armé un chat donde le pido a mi LLM local, a través de mi agente, que mantenga la biblioteca. Me di cuenta de que quería resúmenes completos de videos de YouTube, así que armé un pipeline de transcripción. No quería cualquier resumen, así que creé skills con métodos científicos de resumen. Y me di cuenta de que la biblioteca necesitaba corroboración — información faltante que mi agente no podía llenar solo. Así que creé Researcher, otro agente que encuentra lo que falta y lo complementa.
 
+Toda entrada de IA es explícita: los outputs de Content Toolkit y Researcher entran a `raw/` solo después de revisión/consentimiento humano, y los cambios de Librarian llegan a `wiki/` solo mediante propuestas aprobadas.
+
 Está en alpha. Puede tener bugs. Pero ya es útil.
 
 ---

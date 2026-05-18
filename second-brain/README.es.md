@@ -19,6 +19,8 @@ Seguílas en orden para la mejor experiencia:
 | 07 | [Siguiente nivel con IA](./guides/es/07-next-level-with-ai.md) | Opcional: conocé Librarian, un agente de conocimiento con IA |
 | 08 | [Inicio rápido para agentes](./guides/agent/README.md) | Opcional: orden de lectura mínimo y reglas de edición para agentes de IA |
 
+Los prompts operativos para agentes locales viven en [`agent-instructions/`](./agent-instructions/), incluyendo [`setup-local-vault.es.md`](./agent-instructions/setup-local-vault.es.md).
+
 Los templates iniciales de Obsidian viven en [`templates/`](./templates/):
 
 | Template | Para qué |

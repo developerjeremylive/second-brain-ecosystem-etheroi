@@ -19,6 +19,8 @@ Follow in order for the best experience:
 | 07 | [Next Level with AI](./guides/en/07-next-level-with-ai.md) | Optional: meet Librarian, an AI-powered knowledge agent |
 | 08 | [Agent Quick Start](./guides/agent/README.md) | Optional: minimal read order and editing rules for AI agents |
 
+Operational prompts for local agents live in [`agent-instructions/`](./agent-instructions/), including [`setup-local-vault.es.md`](./agent-instructions/setup-local-vault.es.md).
+
 Starter Obsidian templates live in [`templates/`](./templates/):
 
 | Template | Purpose |

@@ -6,9 +6,6 @@ source_type:
 author:
 status: raw
 tags: []
-librarian:
-  processed: false
-  status: active
 ---
 
 # {{title}}
@@ -23,4 +20,3 @@ librarian:
 
 
 ## Questions
-

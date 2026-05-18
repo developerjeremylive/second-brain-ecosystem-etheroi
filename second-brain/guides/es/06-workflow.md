@@ -85,11 +85,12 @@ Reservá 30 minutos cada semana (domingo a la noche o lunes a la mañana):
 
 ### 1. Limpiar Inbox (8 min)
 - [ ] Mover todas las notas del inbox a su hogar en PARA
-- [ ] Mover fuentes valiosas para IA a raw/
+- [ ] Copiar o mover fuentes valiosas para IA a raw/ solo con consentimiento explícito
 - [ ] Borrar notas que ya no son útiles
 
 ### 2. Revisar Propuestas de Librarian (5 min)
-- [ ] Aprobar, editar o rechazar propuestas en reviews/
+- [ ] Leer exports de propuestas en reviews/
+- [ ] Aprobar, rechazar o aplicar propuestas vía Librarian CLI
 - [ ] Revisar diagnósticos en reports/
 
 ### 3. Revisar Proyectos (10 min)

@@ -22,6 +22,8 @@ So I decided to **automate my Second Brain**.
 
 I built a chat where I ask my local LLM, through my agent, to maintain my library. I realized I wanted full summaries of YouTube videos, so I built a transcription pipeline. I didn't want just any summary, so I created skills based on scientific summarization methods. And I realized my library needed corroboration — information gaps that my agent couldn't fill alone. So I built Researcher, another agent that finds what's missing and fills in the blanks.
 
+All AI intake is explicit: Content Toolkit and Researcher outputs enter `raw/` only after user review/consent, and Librarian changes reach `wiki/` only through approved proposals.
+
 It's in alpha. It may have bugs. But it's already useful.
 
 ---
