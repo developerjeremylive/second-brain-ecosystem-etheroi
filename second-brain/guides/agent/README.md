@@ -25,14 +25,14 @@ Read these files in order before making any changes:
 
 ```
 vault/
-├── raw/
-│   ├── 1-projects/
-│   ├── 2-areas/
-│   ├── 3-resources/
-│   ├── 4-archive/
-│   ├── daily/
-│   └── inbox/
+├── 1-projects/
+├── 2-areas/
+├── 3-resources/
+├── 4-archive/
+├── daily/
+├── inbox/
 ├── templates/
+├── _assets/
 └── home.md
 ```
 
@@ -40,13 +40,13 @@ If the user wants Librarian compatibility, also create the AI operational layer:
 
 ```
 vault/
+├── 1-projects/
+├── 2-areas/
+├── 3-resources/
+├── 4-archive/
+├── daily/
+├── inbox/
 ├── raw/
-│   ├── 1-projects/
-│   ├── 2-areas/
-│   ├── 3-resources/
-│   ├── 4-archive/
-│   ├── daily/
-│   └── inbox/
 ├── wiki/
 │   ├── conceptos/
 │   ├── entidades/
@@ -59,22 +59,26 @@ vault/
 ├── memory/
 ├── configs/
 ├── templates/
+├── _assets/
 ├── .librarian/
 └── home.md
 ```
 
 | Folder | Role | Who writes |
 |--------|------|------------|
-| `raw/inbox/` | Temporary human capture | User |
-| `raw/` | Curated sources for Librarian to process (includes PARA folders) | User (explicit consent) |
+| `inbox/` | Temporary human capture. Librarian never reads it directly. | User |
+| `daily/` | Daily human notes. Not processed by Librarian by default. | User |
+| `1-projects/`, `2-areas/`, `3-resources/`, `4-archive/` | PARA organization for the human Second Brain | User |
+| `raw/` | Curated sources for Librarian to process | User (explicit consent) |
 | `wiki/` | Structured knowledge maintained by AI | Librarian |
 | `reviews/` | Human-readable review and export surface | Librarian (user approves via CLI) |
 | `reports/` | Vault diagnostics | Librarian |
 | `memory/` | Agent continuity across sessions | Librarian |
 | `configs/` | Explicit configuration rules | User |
 | `.librarian/` | Internal state: indexes, proposals, cache, locks | Librarian |
+| `_assets/` | Attachments, images, and binary files | User / Obsidian |
 
-PARA organizes the user's life and projects. Librarian organizes the AI-processable knowledge layer. PARA folders live inside `raw/` alongside `inbox/` and `daily/`, while Librarian's folders (`wiki/`, `reports/`, etc.) live at vault root.
+PARA organizes the user's life and projects. `raw/` is the explicit consent boundary for AI processing. `wiki/` is the curated knowledge layer maintained by Librarian after proposal review and approval. Librarian never processes `inbox/`, `daily/`, or PARA directly.
 
 ### 2. Create Templates
 
@@ -101,7 +105,7 @@ Create `home.md` as the vault dashboard with links to active projects, quick lin
 
 ### 5. Create Inbox
 
-Create `raw/inbox/` folder with a `_README.md` explaining it's for unsorted notes to be processed during weekly reviews.
+Create `inbox/` folder with a `_README.md` explaining it's for unsorted notes to be processed during weekly reviews. Do not place `inbox/` inside `raw/`.
 
 ## Rules
 
@@ -121,7 +125,7 @@ After setup, print a summary:
 ```
 ✅ Second Brain scaffolded successfully
 
-Folders: raw/1-projects, raw/2-areas, raw/3-resources, raw/4-archive, raw/daily, raw/inbox, templates
+Folders: 1-projects, 2-areas, 3-resources, 4-archive, daily, inbox, raw, templates, _assets
 Librarian layer: not created unless requested
 Templates: daily-template, weekly-review, source-template
 Home note: home.md (pinned)

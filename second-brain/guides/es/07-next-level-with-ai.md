@@ -89,14 +89,14 @@ flowchart TD
 
     Raw -->|"La IA lee, nunca modifica"| Wiki
     Wiki -->|"La IA escribe y mantiene"| You
-    You -->|"Agregar nuevas fuentes"| Raw
+    You -->|"Aprobar fuentes en raw/"| Raw
 ```
 
 ### Capa 1: Fuentes Crudas (Tu Input)
 
 Artículos, PDFs, highlights de libros, notas de podcasts, transcripciones de reuniones — cualquier cosa de la que quieras aprender. Son **inmutables** — la IA las lee pero nunca las modifica. Esta es tu fuente de verdad.
 
-En el vault, esta capa vive dentro de `raw/`. Todo — notas diarias, inbox, y tus carpetas PARA — vive bajo `raw/`. `raw/inbox/` es captura temporal humana; el resto de `raw/` (como `raw/1-proyectos/`, `raw/2-areas/`, etc.) es material curado que decidiste entregar a Librarian para procesamiento.
+En el vault, esta capa vive en `raw/`. `raw/` es la frontera explícita de consentimiento para procesamiento con IA: Librarian solo lee las fuentes que movés o copiás ahí. Tus carpetas PARA, `daily/` e `inbox/` quedan fuera de `raw/` como capa humana.
 
 ### Capa 2: La Wiki (El Trabajo de la IA)
 
@@ -132,12 +132,13 @@ Si habilitás Librarian, las tres capas conceptuales se materializan en estas ca
 
 | Carpeta | Rol | Quién escribe |
 |---------|-----|---------------|
-| `raw/1-proyectos/` | Proyectos activos con fecha límite o meta | Vos |
-| `raw/2-areas/` | Responsabilidades en curso sin fecha de fin | Vos |
-| `raw/3-recursos/` | Temas de interés | Vos |
-| `raw/4-archivo/` | Proyectos completados e ítems inactivos | Vos |
-| `raw/daily/` | Notas diarias | Vos |
-| `raw/inbox/` | Captura humana temporal | Vos |
+| `1-proyectos/` | Proyectos activos con fecha límite o meta | Vos |
+| `2-areas/` | Responsabilidades en curso sin fecha de fin | Vos |
+| `3-recursos/` | Temas de interés | Vos |
+| `4-archivo/` | Proyectos completados e ítems inactivos | Vos |
+| `daily/` | Notas diarias humanas, no procesadas por Librarian por defecto | Vos |
+| `inbox/` | Captura humana temporal. Librarian nunca la lee directamente. | Vos |
+| `raw/` | Fuentes inmutables aprobadas explícitamente para IA | Vos |
 | `wiki/` | Conocimiento ya estructurado | Librarian |
 | `reviews/` | Superficie humana de revisión y export | Librarian (vos aprobás vía CLI) |
 | `reports/` | Diagnósticos del vault | Librarian |
@@ -277,7 +278,7 @@ Estas prácticas hacen que tu wiki funcione mejor con IA:
 | Tip | Por qué ayuda |
 |-----|---------------|
 | **Usá nombres de carpetas consistentes** | La IA navega tu estructura más confiablemente |
-| **Mové una fuente de `raw/inbox/` a `raw/3-recursos/` (o la carpeta PARA que corresponda) antes de pedir curaduría** | `raw/` marca consentimiento explícito para que Librarian la procese |
+| **Mové o copiá a `raw/` las fuentes que querés curar antes de pedir curaduría** | `raw/` marca consentimiento explícito para que Librarian la procese |
 | **Dejá que la IA lintee semanalmente** | Mantiene la wiki saludable sin tu esfuerzo |
 | **Guardá buenas Q&A como páginas de wiki** | Tus exploraciones se acumulan con el tiempo |
 | **Usá la vista de grafo de Obsidian** | Ve la forma de tu wiki — hubs, huérfanas, clusters |

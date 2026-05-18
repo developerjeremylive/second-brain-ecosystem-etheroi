@@ -49,7 +49,7 @@ flowchart TD
     Q -->|Not anymore| Arc[📁 4-archive]
 ```
 
-> 💡 The PARA folders (`1-projects`, `2-areas`, etc.), `daily/`, and `inbox/` all live inside `raw/`.
+> 💡 PARA, `daily/`, and `inbox/` are the human layer. Copy or move only sources you want Librarian to process into `raw/`.
 
 **When to organize:** During your weekly review (we'll set that up below).
 

@@ -89,14 +89,14 @@ flowchart TD
 
     Raw -->|"AI reads, never modifies"| Wiki
     Wiki -->|"AI writes & maintains"| You
-    You -->|"Drop new sources"| Raw
+    You -->|"Approve sources into raw/"| Raw
 ```
 
 ### Layer 1: Raw Sources (Your Input)
 
 Articles, PDFs, book highlights, podcast notes, meeting transcripts — anything you want to learn from. These are **immutable** — the AI reads them but never changes them. This is your source of truth.
 
-In the vault, this layer lives in `raw/`. Everything you write — projects, areas, daily notes, and sources — lives under `raw/`. Librarian reads and indexes all of `raw/` but only processes explicit sources (not `raw/inbox/`). The indexer scopes to `raw/` + `wiki/` only, keeping templates and infrastructure out of search results.
+In the vault, this layer lives in `raw/`. `raw/` is the explicit consent boundary for AI processing: only sources you move or copy there are read by Librarian. Your PARA folders, `daily/`, and `inbox/` stay outside `raw/` as the human layer.
 
 ### Layer 2: The Wiki (The AI's Work)
 
@@ -132,13 +132,13 @@ If you enable Librarian, the three conceptual layers materialize as these folder
 
 | Folder | Role | Who writes |
 |--------|------|------------|
-| `raw/` | All user content: PARA organization, daily notes, inbox, and sources | You |
-| `raw/1-proyectos/` | Projects with deadlines | You |
-| `raw/2-areas/` | Ongoing responsibilities | You |
-| `raw/3-recursos/` | Useful references | You |
-| `raw/4-archivo/` | Inactive items | You |
-| `raw/daily/` | Daily notes | You |
-| `raw/inbox/` | Temporary human capture (Librarian skips inbox/) | You |
+| `1-projects/` | Projects with deadlines | You |
+| `2-areas/` | Ongoing responsibilities | You |
+| `3-resources/` | Useful references | You |
+| `4-archive/` | Inactive items | You |
+| `daily/` | Daily human notes, not processed by Librarian by default | You |
+| `inbox/` | Temporary human capture. Librarian never reads it directly. | You |
+| `raw/` | Immutable sources explicitly approved for AI processing | You |
 | `wiki/` | Structured knowledge | Librarian |
 | `reviews/` | Human-readable review and export surface | Librarian (you approve via CLI) |
 | `reports/` | Vault diagnostics | Librarian |
@@ -278,7 +278,7 @@ These practices make your wiki work better with AI:
 | Tip | Why it helps |
 |-----|-------------|
 | **Use consistent folder names** | AI navigates your structure more reliably |
-| **Move sources you want curated out of `raw/inbox/` into `raw/` (root) before asking for curation** | `raw/` marks explicit consent for Librarian to process it |
+| **Move or copy sources you want curated into `raw/` before asking for curation** | `raw/` marks explicit consent for Librarian to process it |
 | **Let the AI lint weekly** | Keeps the wiki healthy without your effort |
 | **Save good Q&A as wiki pages** | Your explorations compound over time |
 | **Use Obsidian's graph view** | See the shape of your wiki — hubs, orphans, clusters |

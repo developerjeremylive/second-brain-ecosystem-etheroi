@@ -13,9 +13,9 @@ Así que decidí **automatizar mi Second Brain**.
 Hoy el ecosistema tiene estos componentes:
 
 - **Obsidian** — El vault. Donde vive todo el conocimiento. Es la interfaz humana.
-- **Librarian** — Un agente que mantiene la biblioteca. Lee las fuentes crudas, clasifica, detecta duplicados, genera propuestas y escribe notas curadas al wiki. Todo con aprobación humana (por ahora — está en alpha).
-- **Content Toolkit** — Herramientas de ingesta. Transcripción de videos/audio con Whisper, pipeline completo de YouTube → audio → transcripción → resumen inteligente. Para cuando quiero resúmenes completos de videos.
-- **Researcher** — Un agente de búsqueda web (patrón Search-o1: piensa → busca → lee → sintetiza). Se encarga de encontrar información que le falta a la biblioteca y complementarla. No depende de Librarian — se invoca directamente.
+- **Librarian** — Un pipeline review-driven de mantenimiento de conocimiento para el vault de Obsidian. Lee fuentes ubicadas explícitamente en `raw/`, clasifica, detecta duplicados, genera propuestas y aplica cambios aprobados al wiki. Todas las mutaciones requieren aprobación humana.
+- **Content Toolkit** — Herramientas de ingesta. Transcripción de videos/audio con Whisper, pipeline completo de YouTube → audio → transcripción → resumen inteligente. Produce artefactos que puedo guardar explícitamente en `raw/` cuando quiero que Librarian los procese.
+- **Researcher** — Un agente de búsqueda web (patrón Search-o1: piensa → busca → lee → sintetiza). Se encarga de encontrar información que le falta a la biblioteca y complementarla. No depende de Librarian — se invoca directamente, y su output puede guardarse en `raw/` cuando sea útil.
 
 Está en alpha. Puede tener bugs. Pero ya es útil.
 
@@ -29,6 +29,7 @@ graph TB
         U1["Captura ideas, notas, links"]
         U2["Chat con Librarian<br/>via TUI / CLI"]
         U3["Aprueba / Rechaza<br/>propuestas"]
+        U5["Consentimiento explícito<br/>mover/copiar a raw/"]
         U4["Lee y navega<br/>el wiki en Obsidian"]
     end
 
@@ -43,12 +44,16 @@ graph TB
     subgraph TOOLKIT["🔧 Content Toolkit"]
         INGEST["ingest-youtube<br/>yt-dlp → ffmpeg → Whisper"]
         TRANSCRIBE["transcribe<br/>Whisper standalone"]
+        ARTIFACT["transcripciones / resúmenes<br/>en staging para revisar"]
     end
 
     subgraph VAULT["🗄️ Obsidian Vault"]
-        RAW["raw/<br/>Fuentes inmutables<br/>(sin procesar)"]
+        INBOX["inbox/<br/>Captura humana<br/>(Librarian no lo lee)"]
+        RAW["raw/<br/>Fuentes inmutables<br/>aprobadas para IA"]
         WIKI["wiki/<br/>Conocimiento curado<br/>conceptos · entidades<br/>sources · synthesis"]
-        INBOX["inbox/<br/>Captura humana<br/>(no se procesa auto)"]
+        REVIEWS["reviews/<br/>Superficie humana<br/>de revisión"]
+        PROPOSALS[".librarian/proposals/<br/>Fuente interna<br/>de verdad"]
+        LEDGER[".librarian/processed.json<br/>Ledger de fuentes procesadas"]
     end
 
     subgraph LIBRARIAN_AGENT["📚 Librarian (Agente Curador)"]
@@ -56,7 +61,7 @@ graph TB
         L2["Classify & Dedup"]
         L3["Generate Proposals"]
         L4["Apply<br/>(con aprobación humana)"]
-        L1 --> L2 --> L3 --> L4
+        L1 --> L2 --> L3
     end
 
     subgraph RESEARCHER_AGENT["🔍 Researcher (Agente de Búsqueda)"]
@@ -66,31 +71,38 @@ graph TB
         R1 --> R2 --> R3
     end
 
-    %% Fuentes → Content Toolkit → raw/
+    %% Fuentes → Content Toolkit → artefactos en staging
     YT --> INGEST
     POD --> TRANSCRIBE
-    INGEST -->|"transcripción + resumen"| RAW
-    TRANSCRIBE -->|"transcripción"| RAW
+    INGEST -->|"transcripción + resumen"| ARTIFACT
+    TRANSCRIBE -->|"transcripción"| ARTIFACT
+    ARTIFACT -->|"el usuario revisa output"| U5
 
-    %% Fuentes manuales → raw/ o inbox/
-    WEB -->|"guardado manual"| RAW
-    PDF -->|"guardado manual"| RAW
+    %% Fuentes manuales → inbox/ o raw/ con consentimiento explícito
+    WEB -->|"captura manual"| INBOX
+    PDF -->|"captura manual"| INBOX
     MANUAL --> INBOX
-    MANUAL --> RAW
     U1 --> INBOX
-    U1 --> RAW
+    U1 -->|"fuente aprobada directa"| U5
+    INBOX -->|"promover intencionalmente"| U5
+    U5 --> RAW
 
-    %% raw/ → Librarian → wiki/
+    %% raw/ → Librarian → propuestas → aprobación → apply → wiki/
     RAW --> L1
+    L3 -->|"guarda propuesta"| PROPOSALS
+    L3 -->|"exporta revisión legible"| REVIEWS
+    REVIEWS -.->|"propuestas pendientes"| U3
+    PROPOSALS -->|"propuesta aprobada"| L4
     L4 -->|"escribe notas curadas"| WIKI
+    L4 -->|"marca fuente procesada<br/>después de apply exitoso"| LEDGER
 
     %% Usuario interactúa con Librarian
     U2 --> L1
-    U3 --> L4
-    L3 -.->|"propuestas pendientes"| U3
+    U3 -->|"aprobar / rechazar vía CLI"| PROPOSALS
+    U3 -->|"aplicar propuesta aprobada"| L4
 
-    %% Researcher → puede alimentar raw/
-    R3 -->|"resultado → raw/"| RAW
+    %% Researcher → puede alimentar raw/ solo con consentimiento del usuario
+    R3 -->|"respuesta + sources"| U5
 
     %% Usuario lee wiki
     WIKI --> U4
@@ -106,10 +118,10 @@ graph TB
     classDef agent fill:#e8daef,stroke:#af7ac5,color:#000
     classDef research fill:#fdebd0,stroke:#f0b27a,color:#000
 
-    class U1,U2,U3,U4 user
+    class U1,U2,U3,U4,U5 user
     class YT,POD,WEB,PDF,MANUAL source
-    class INGEST,TRANSCRIBE toolkit
-    class RAW,WIKI,INBOX vault
+    class INGEST,TRANSCRIBE,ARTIFACT toolkit
+    class RAW,WIKI,INBOX,REVIEWS,PROPOSALS,LEDGER vault
     class L1,L2,L3,L4 agent
     class R1,R2,R3 research
 ```
@@ -120,40 +132,45 @@ graph TB
 
 ### 1. Usuario ↔ Obsidian
 
-El usuario interactúa directamente con Obsidian como interfaz principal. Escribe notas, captura ideas, navega el wiki. Todo es Markdown plano.
+El usuario interactúa directamente con Obsidian como interfaz principal. Escribe notas, captura ideas, revisa páginas generadas del wiki y navega el grafo de conocimiento. Todo es Markdown plano.
 
 ```
 Usuario → Obsidian (vault/)
-Usuario ← Obsidian (leer wiki, buscar, navegar)
+Usuario ← Obsidian (leer wiki/, buscar, navegar)
 ```
 
 ### 2. Usuario ↔ Librarian
 
-El usuario se comunica con Librarian a través de una TUI (terminal) o CLI. Le puede pedir que procese notas, busque en el wiki, o haga mantenimiento. Librarian genera propuestas que requieren aprobación humana antes de escribir al wiki.
+El usuario se comunica con Librarian a través de una TUI (terminal) o CLI. Le puede pedir que ingiera fuentes aprobadas, busque en el wiki, o haga mantenimiento. Librarian genera propuestas antes de cualquier mutación.
+
+`reviews/` es una superficie humana de revisión y export. `.librarian/proposals/` es la fuente de verdad interna de propuestas.
 
 ```
-Usuario → Librarian TUI/CLI → "procesá estas notas", "buscá X"
-Librarian → Usuario → "tengo 3 propuestas pendientes"
+Usuario → Librarian TUI/CLI → "ingerí fuentes aprobadas", "buscá X en wiki"
+Librarian → .librarian/proposals/ → guarda propuesta
+Librarian → reviews/ → exporta propuesta legible
 Usuario → Librarian → "aprobá propuesta #42"
+Usuario → Librarian → "aplicá propuesta #42"
 Librarian → wiki/ → escribe nota curada
+Librarian → .librarian/processed.json → marca fuente procesada
 ```
 
-### 3. Content Toolkit → Vault (raw/)
+### 3. Content Toolkit → Usuario → Vault (raw/)
 
-Content Toolkit es un pre-procesador. Transforma medios (video, audio) en texto antes de que lleguen al vault. No depende de Librarian.
+Content Toolkit es un pre-procesador. Transforma medios (video, audio) en texto, pero no decide qué puede procesar Librarian. El usuario revisa el output y lo guarda o mueve explícitamente a `raw/` cuando debe entrar a la capa procesable por IA.
 
 ```
-YouTube URL → ingest-youtube → transcripción + resumen → raw/
-Video/Audio → transcribe → transcripción → raw/
+YouTube URL → ingest-youtube → transcripción + resumen → revisión humana → raw/
+Video/Audio → transcribe → transcripción → revisión humana → raw/
 ```
 
 ### 4. Researcher (independiente)
 
-Researcher es un agente autónomo de búsqueda web. No depende de Librarian — se invoca directamente. Busca en la web, lee páginas, sintetiza respuestas. Su output puede copiarse a `raw/` para que Librarian lo procese después.
+Researcher es un agente de búsqueda web. No depende de Librarian — se invoca directamente. Busca en la web, lee páginas y sintetiza respuestas. Su output puede copiarse a `raw/` por el usuario para que Librarian lo procese después.
 
 ```
 Usuario → researcher "qué es agentic RAG?" → respuesta + sources
-Resultado → raw/ → (opcional) Librarian lo procesa
+Usuario revisa resultado → raw/ → (opcional) Librarian lo procesa
 ```
 
 ---
@@ -163,17 +180,18 @@ Resultado → raw/ → (opcional) Librarian lo procesa
 | Componente | Rol | Repo |
 |------------|-----|------|
 | **Obsidian** | Interfaz humana, vault de conocimiento | Vault local |
-| **Librarian** | Curador del wiki (proposal-first, aprobación humana) | [`librarian`](../librarian/) |
-| **Content Toolkit** | Ingesta de medios (YouTube → texto, transcripción) | [`content-toolkit`](../content-toolkit/) |
+| **Librarian** | Pipeline review-driven y proposal-based de mantenimiento de conocimiento | [`librarian`](../librarian/) |
+| **Content Toolkit** | Ingesta de medios (YouTube → texto, transcripción) con entrada al vault aprobada por el usuario | [`content-toolkit`](../content-toolkit/) |
 | **Researcher** | Búsqueda web agéntica (Search-o1) | [`researcher`](../researcher/) |
 
 ---
 
 ## Decisiones Clave
 
-- **Todo entra por `raw/` primero** — No se contamina `wiki/` con contenido sin curar.
+- **Todo lo que Librarian procesa entra por `raw/` primero** — `raw/` es la frontera explícita de consentimiento para procesamiento con IA.
 - **Librarian no busca en la web** — Su scope es gestor de Obsidian, no Google.
 - **Researcher es repo separado** — Responsabilidad única, reutilizable.
-- **Content Toolkit es pre-procesador** — Transforma medios antes de llegar al vault.
-- **Propuestas antes de apply** — Nunca se escribe directo a `wiki/` sin aprobación humana.
+- **Content Toolkit es pre-procesador** — Transforma medios antes de que el usuario decida si el resultado pertenece en `raw/`.
+- **Propuestas antes de apply** — Nunca se escribe directo a `wiki/` sin aprobación humana y un paso explícito de apply.
+- **Reviews y proposals son superficies separadas** — `reviews/` es para revisión humana; `.librarian/proposals/` es la fuente interna de verdad.
 - **Wikilinks > tags** — El grafo de conexiones es más valioso que categorías.

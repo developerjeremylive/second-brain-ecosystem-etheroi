@@ -19,17 +19,15 @@ The most popular organizing system for a Second Brain is **PARA**, created by Ti
 
 ```mermaid
 graph TD
-    Vault[📁 your-vault] --> Raw[📁 raw]
+    Vault[📁 your-vault] --> P[📁 1-projects]
+    Vault --> A[📁 2-areas]
+    Vault --> R[📁 3-resources]
+    Vault --> Arc[📁 4-archive]
+    Vault --> D[📁 daily]
+    Vault --> In[📁 inbox]
     Vault --> T[📁 templates]
     Vault --> H[📄 home.md]
-    Vault -. optional .-> AI[📁 Librarian Layer<br/>wiki · reports · reviews · memory · configs · .librarian]
-
-    Raw --> P[📁 1-projects]
-    Raw --> A[📁 2-areas]
-    Raw --> R[📁 3-resources]
-    Raw --> Arc[📁 4-archive]
-    Raw --> D[📁 daily]
-    Raw --> In[📁 inbox]
+    Vault -. optional .-> AI[📁 Librarian Layer<br/>raw · wiki · reports · reviews · memory · configs · .librarian]
 
     P --> P1[launch-portfolio.md]
     P --> P2[📁 thesis-2026]
@@ -57,6 +55,7 @@ vault/
   daily/
   inbox/
   templates/
+  _assets/
   home.md
 ```
 
@@ -70,20 +69,21 @@ This layer is optional. Your Second Brain works without it. If you plan to use L
 
 ```text
 vault/
-  raw/            # PARA folders + immutable sources approved for AI
-    1-projects/
-    2-areas/
-    3-resources/
-    4-archive/
-    daily/
-    inbox/
+  1-projects/     # PARA: active work with goals or deadlines
+  2-areas/        # PARA: ongoing responsibilities
+  3-resources/    # PARA: useful topics and references
+  4-archive/      # PARA: inactive or completed material
+  daily/          # daily human notes, not processed by Librarian by default
+  inbox/          # quick human capture, not read by Librarian
+  raw/            # immutable sources explicitly approved for AI processing
   wiki/           # structured knowledge generated/curated by Librarian
-  reports/        # automatic vault diagnostics
+  reports/        # vault diagnostics generated when requested
   reviews/        # proposals pending approval/rejection/editing
   memory/         # persistent agent/session memory
   configs/        # visible/editable Librarian configuration
   templates/
   .librarian/     # internal state, indexes, cache, locks
+  _assets/        # attachments and images
   home.md
 ```
 
@@ -91,16 +91,19 @@ The relationship between folders:
 
 | Folder | Role | Who writes |
 |--------|------|------------|
-| `raw/inbox/` | Temporary human capture | You |
-| `raw/` | Sources approved for Librarian to read (includes PARA folders) | You (explicit consent) |
+| `inbox/` | Temporary human capture. Librarian never reads it directly. | You |
+| `daily/` | Daily human notes. Not processed by Librarian by default. | You |
+| `1-projects/`, `2-areas/`, `3-resources/`, `4-archive/` | PARA organization for your human Second Brain | You |
+| `raw/` | Immutable sources approved for Librarian to read | You (explicit consent) |
 | `wiki/` | Structured knowledge | Librarian |
 | `reviews/` | Human-readable review and export surface | Librarian (you approve via CLI) |
 | `reports/` | Vault diagnostics | Librarian |
 | `memory/` | Agent continuity across sessions | Librarian |
 | `configs/` | Explicit configuration rules | You |
 | `.librarian/` | Internal technical state | Librarian |
+| `_assets/` | Attachments, images, and binary files | You / Obsidian |
 
-Use `raw/inbox/` for fast human capture. The PARA folders (`1-projects`, `2-areas`, etc.), `daily/`, and `inbox/` all live inside `raw/`. Move a source into `raw/` only when you want Librarian to process it. This separation acts as a consent boundary: not everything you capture automatically enters the AI layer.
+The user captures and organizes life in `inbox/`, `daily/`, and PARA. Only when the user decides a source can be read by AI do they move or copy it into `raw/`. Librarian never processes `inbox/`, `daily/`, or PARA directly.
 
 Inside `wiki/`, Librarian expects this structure:
 
@@ -151,15 +154,17 @@ Good naming makes everything searchable:
 
 ## When in Doubt: Inbox
 
-Not sure where a note goes? Create an `inbox/` folder inside `raw/`. Dump things there and sort later during a weekly review.
+Not sure where a note goes? Create an `inbox/` folder at the vault root. Dump things there and sort later during a weekly review.
 
 ```
 📁 your-vault/
-├── 📁 raw/
-│   ├── 📁 inbox/         ← Unsorted notes (sort weekly)
-│   ├── 📁 1-projects/
-│   ├── 📁 2-areas/
-│   ...
+├── 📁 inbox/             ← Unsorted notes (sort weekly)
+├── 📁 daily/
+├── 📁 1-projects/
+├── 📁 2-areas/
+├── 📁 3-resources/
+├── 📁 4-archive/
+├── 📁 raw/               ← Only sources approved for AI processing
 ├── 📁 templates/
 └── 📄 home.md
 ```

@@ -36,6 +36,7 @@ graph TB
         U1["Captura ideas, notas, links"]
         U2["Chat con Librarian<br/>via TUI / CLI"]
         U3["Aprueba / Rechaza<br/>propuestas"]
+        U5["Consentimiento explícito<br/>mover/copiar a raw/"]
         U4["Lee y navega<br/>el wiki en Obsidian"]
     end
 
@@ -50,12 +51,15 @@ graph TB
     subgraph TOOLKIT["🔧 Content Toolkit"]
         INGEST["ingest-youtube<br/>yt-dlp → ffmpeg → Whisper"]
         TRANSCRIBE["transcribe<br/>Whisper standalone"]
+        ARTIFACT["transcripciones / resúmenes<br/>en staging para revisar"]
     end
 
     subgraph VAULT["🗄️ Obsidian Vault"]
-        RAW["raw/<br/>Fuentes inmutables<br/>(sin procesar)"]
+        INBOX["inbox/<br/>Captura humana<br/>(Librarian no lo lee)"]
+        RAW["raw/<br/>Fuentes inmutables<br/>aprobadas para IA"]
         WIKI["wiki/<br/>Conocimiento curado<br/>conceptos · entidades<br/>sources · synthesis"]
-        INBOX["inbox/<br/>Captura humana<br/>(no se procesa auto)"]
+        REVIEWS["reviews/<br/>Superficie humana<br/>de revisión"]
+        PROPOSALS[".librarian/proposals/<br/>Fuente interna<br/>de verdad"]
     end
 
     subgraph LIBRARIAN_AGENT["📚 Librarian (Agente Curador)"]
@@ -63,7 +67,7 @@ graph TB
         L2["Classify & Dedup"]
         L3["Generate Proposals"]
         L4["Apply<br/>(con aprobación humana)"]
-        L1 --> L2 --> L3 --> L4
+        L1 --> L2 --> L3
     end
 
     subgraph RESEARCHER_AGENT["🔍 Researcher (Agente de Búsqueda)"]
@@ -73,31 +77,37 @@ graph TB
         R1 --> R2 --> R3
     end
 
-    %% Fuentes → Content Toolkit → raw/
+    %% Fuentes → Content Toolkit → artefactos en staging
     YT --> INGEST
     POD --> TRANSCRIBE
-    INGEST -->|"transcripción + resumen"| RAW
-    TRANSCRIBE -->|"transcripción"| RAW
+    INGEST -->|"transcripción + resumen"| ARTIFACT
+    TRANSCRIBE -->|"transcripción"| ARTIFACT
+    ARTIFACT -->|"el usuario revisa output"| U5
 
-    %% Fuentes manuales → raw/ o inbox/
-    WEB -->|"guardado manual"| RAW
-    PDF -->|"guardado manual"| RAW
+    %% Fuentes manuales → inbox/ o raw/ con consentimiento explícito
+    WEB -->|"captura manual"| INBOX
+    PDF -->|"captura manual"| INBOX
     MANUAL --> INBOX
-    MANUAL --> RAW
     U1 --> INBOX
-    U1 --> RAW
+    U1 -->|"fuente aprobada directa"| U5
+    INBOX -->|"promover intencionalmente"| U5
+    U5 --> RAW
 
-    %% raw/ → Librarian → wiki/
+    %% raw/ → Librarian → propuestas → aprobación → apply → wiki/
     RAW --> L1
+    L3 -->|"guarda propuesta"| PROPOSALS
+    L3 -->|"exporta revisión legible"| REVIEWS
+    REVIEWS -.->|"propuestas pendientes"| U3
+    PROPOSALS -->|"propuesta aprobada"| L4
     L4 -->|"escribe notas curadas"| WIKI
 
     %% Usuario interactúa con Librarian
     U2 --> L1
-    U3 --> L4
-    L3 -.->|"propuestas pendientes"| U3
+    U3 -->|"aprobar / rechazar vía CLI"| PROPOSALS
+    U3 -->|"aplicar propuesta aprobada"| L4
 
-    %% Researcher → puede alimentar raw/
-    R3 -->|"resultado → raw/"| RAW
+    %% Researcher → puede alimentar raw/ solo con consentimiento del usuario
+    R3 -->|"respuesta + sources"| U5
 
     %% Usuario lee wiki
     WIKI --> U4
@@ -113,10 +123,10 @@ graph TB
     classDef agent fill:#e8daef,stroke:#af7ac5,color:#000
     classDef research fill:#fdebd0,stroke:#f0b27a,color:#000
 
-    class U1,U2,U3,U4 user
+    class U1,U2,U3,U4,U5 user
     class YT,POD,WEB,PDF,MANUAL source
-    class INGEST,TRANSCRIBE toolkit
-    class RAW,WIKI,INBOX vault
+    class INGEST,TRANSCRIBE,ARTIFACT toolkit
+    class RAW,WIKI,INBOX,REVIEWS,PROPOSALS vault
     class L1,L2,L3,L4 agent
     class R1,R2,R3 research
 ```
