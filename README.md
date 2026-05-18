@@ -12,6 +12,20 @@ A Second Brain is a personal knowledge management system that helps you capture,
 
 The concept was popularized by [Tiago Forte](https://fortelabs.com/) and his **BASB** (Building a Second Brain) methodology, but you don't need to follow any specific framework to get started.
 
+## Lore
+
+I needed to solve a concrete problem: **managing all the information on my PC**.
+
+It started with the [LLM Wiki gist by Karpathy](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f). I wanted a second brain — at first, just two folders with hand-written `.md` files. It worked, but eventually managing them became complicated: broken links, duplicate notes, stale content, orphaned ideas.
+
+So I decided to **automate my Second Brain**.
+
+I built a chat where I ask my local LLM, through my agent, to maintain my library. I realized I wanted full summaries of YouTube videos, so I built a transcription pipeline. I didn't want just any summary, so I created skills based on scientific summarization methods. And I realized my library needed corroboration — information gaps that my agent couldn't fill alone. So I built Researcher, another agent that finds what's missing and fills in the blanks.
+
+It's in alpha. It may have bugs. But it's already useful.
+
+---
+
 ## Architecture
 
 ```mermaid

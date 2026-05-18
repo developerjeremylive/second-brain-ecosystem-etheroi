@@ -12,6 +12,22 @@ Un Segundo Cerebro es un sistema de gestión de conocimiento personal que te ayu
 
 El concepto fue popularizado por [Tiago Forte](https://fortelabs.com/) y su metodología **BASB** (Building a Second Brain), pero no necesitás seguir ningún framework específico para empezar.
 
+## Lore
+
+Necesitaba resolver un problema concreto: **el manejo de la información dentro de mi PC**.
+
+Empecé creando una biblioteca virtual para todo lo que me llamaba la atención — conocimiento técnico, libros, podcasts, resúmenes de videos de YouTube. Quería armar mi propia biblioteca de conocimiento, curada y organizada.
+
+Todo empezó con el [gist de Karpathy sobre LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f). Se me ocurrió hacer un segundo cerebro. Al principio fueron dos carpetas con archivos `.md` escritos a mano. Funcionaba, pero eventualmente manejarlos se volvía complicado: links rotos, notas duplicadas, contenido desactualizado, ideas huérfanas.
+
+Así que decidí **automatizar mi Second Brain**.
+
+Armé un chat donde le pido a mi LLM local, a través de mi agente, que mantenga la biblioteca. Me di cuenta de que quería resúmenes completos de videos de YouTube, así que armé un pipeline de transcripción. No quería cualquier resumen, así que creé skills con métodos científicos de resumen. Y me di cuenta de que la biblioteca necesitaba corroboración — información faltante que mi agente no podía llenar solo. Así que creé Researcher, otro agente que encuentra lo que falta y lo complementa.
+
+Está en alpha. Puede tener bugs. Pero ya es útil.
+
+---
+
 ## Arquitectura
 
 ```mermaid
